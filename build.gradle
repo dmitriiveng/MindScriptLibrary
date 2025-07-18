@@ -1,14 +1,14 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
 }
 
-group = 'com.github.UsernameJustACoderIsNotAvailable'
-version = '1.0'
+group = 'com.github.dmitriiveng'
+version = '1.0.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(18)
+        languageVersion = JavaLanguageVersion.of(18)  // JDK 18
     }
     withSourcesJar()
     withJavadocJar()
@@ -16,13 +16,7 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.release = 18 // Альтернатива targetCompatibility
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'Main'
-    }
+    options.release = 18
 }
 
 repositories {
@@ -30,13 +24,22 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.UsernameJustACoderIsNotAvailable:MindScriptApp:v1.0'
+    // Зависимости библиотеки
+    implementation 'com.github.dmitriiveng:MindScriptLibrary:v1.0.0'
+
+    // Тесты
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
             from components.java
+            artifactId = 'MindScriptLibrary'  // Указываем имя артефакта
         }
     }
 }
