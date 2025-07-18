@@ -1,11 +1,29 @@
-apply plugin: 'java'
-apply plugin: 'maven-publish'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
 group = 'com.github.UsernameJustACoderIsNotAvailable'
 version = '1.0'
 
-sourceCompatibility = 1.8 // java 8
-targetCompatibility = 1.8
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(18)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 18 // Альтернатива targetCompatibility
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -13,11 +31,6 @@ repositories {
 
 dependencies {
     implementation 'com.github.UsernameJustACoderIsNotAvailable:MindScriptApp:v1.0'
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 publishing {
