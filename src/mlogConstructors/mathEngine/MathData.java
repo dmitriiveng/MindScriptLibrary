@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 public class MathData {
     protected List<String> operators = List.of(
             "!",
+            "rand",
             "-!",//умножение на -1
             "*",
             "/",
@@ -36,6 +37,7 @@ public class MathData {
     );
     protected Map<String, MathUnit> operatorsMap = Stream.of(new Object[][] {
             { "!", new MathUnit("!", operatorType.not, operatorArgAmount.unary, operationIsAssignment.nonAssignment, 1)},
+            { "rand", new MathUnit("rand", operatorType.rand, operatorArgAmount.unary, operationIsAssignment.nonAssignment, 1)},
             { "-!", new MathUnit("-!", operatorType.convertToNegative, operatorArgAmount.unary, operationIsAssignment.nonAssignment, 1)},//умножение на -1
             { "*", new MathUnit("*", operatorType.mul, operatorArgAmount.binary, operationIsAssignment.nonAssignment, 2) },
             { "/", new MathUnit("/", operatorType.div, operatorArgAmount.binary, operationIsAssignment.nonAssignment, 2) },

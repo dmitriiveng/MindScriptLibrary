@@ -182,6 +182,25 @@ public class MathematicalExpressionReader {
                             helpVarCount++;
                             operationIndex++;
                         }
+                        else if (mathUnit.operatorType == Operation.operatorType.rand) {
+                            if (operationIndex == mathUnits.size() - 1) {
+                                throw new IOException("no args for operator: " + mathUnit.stringValue);
+                            }
+                            if (mathUnits.get(operationIndex + 1).type != MathUnit.mathUnitType.wordOrValue) {
+                                throw new IOException("no args for operator: " + mathUnit.stringValue);
+                            }
+                            resultVarName = helpVarString + nextExpressionIndex + helpVarCount;
+                            operations.add(new Operation(
+                                    resultVarName,
+                                    mathUnits.get(operationIndex + 1).stringValue,
+                                    mathUnit.operatorType,
+                                    Operation.operationIsAssignment.nonAssignment
+                            ));
+                            mathUnits.remove(operationIndex + 1);
+                            mathUnits.set(operationIndex, new MathUnit(resultVarName));//заменяем оператор и переменную/число на новую переменную, которую мы получили
+                            helpVarCount++;
+                            operationIndex++;
+                        }
                     }
                 }
                 else {
